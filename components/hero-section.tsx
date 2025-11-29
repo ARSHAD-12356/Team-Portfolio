@@ -1,9 +1,7 @@
 "use client"
-
 import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import gsap from "gsap"
-import Hero3DScene from "@/components/hero-3d-scene"
 
 interface HeroSectionProps {
   scrollY: number
@@ -15,22 +13,11 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
   const rightRef = useRef<HTMLDivElement>(null)
   const sceneRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    if (!leftRef.current) return
-
-    gsap.to(leftRef.current, {
-      y: scrollY * 0.3,
-      opacity: Math.max(0, 1 - scrollY / 600),
-      duration: 0.1,
-    })
-
-    if (rightRef.current) {
-      gsap.to(rightRef.current, {
-        y: scrollY * 0.2,
-        duration: 0.1,
-      })
-    }
-  }, [scrollY])
+  // Scroll animation removed to prevent jitter
+  // useEffect(() => {
+  //   if (!leftRef.current) return
+  //   gsap.to(leftRef.current, { y: scrollY * 0.3, ... })
+  // }, [scrollY])
 
   // Add idle floating animation to 3D scene
   useEffect(() => {
@@ -124,21 +111,47 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
             </motion.p>
           </motion.div>
 
-          {/* RIGHT COLUMN - 3D SCENE */}
+          {/* RIGHT COLUMN - PREMIUM 3D CARD */}
           <motion.div
             ref={rightRef}
             initial={{ opacity: 0, scale: 0.8, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1, type: "spring" }}
-            className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden group"
+            className="relative h-auto w-full mx-auto flex items-center justify-center"
+            style={{
+              transform: "translateZ(0) !important",
+              willChange: "auto !important",
+              backfaceVisibility: "hidden",
+              perspective: "1000px",
+            } as any}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-card to-secondary/20 border border-primary/30 rounded-2xl backdrop-blur-sm" />
+            {/* Gradient glow background */}
+            <div className="absolute -inset-8 bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/30 rounded-3xl blur-3xl opacity-40 animate-pulse" 
+              style={{ animationDuration: '4s' }} />
+            
+            {/* Glassmorphism premium card */}
+            <div className="relative w-full" 
+              style={{
+                aspectRatio: '4/3',
+                maxWidth: 'clamp(300px, 45vw, 600px)',
+              }}
+            >
+              {/* Neon border glow effect */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-secondary to-accent rounded-2xl opacity-75 blur-xl" />
+              
+              {/* Card container with blur background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-900/70 to-slate-900/80 rounded-2xl backdrop-blur-2xl border border-primary/20 overflow-hidden shadow-2xl" />
+              
+              {/* Subtle inner glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 rounded-2xl pointer-events-none" />
+              
+              {/* Animated grid overlay */}
+              <div className="absolute inset-0 cyber-grid opacity-10 rounded-2xl" />
 
-            {/* Animated grid background */}
-            <div className="absolute inset-0 cyber-grid opacity-20" />
-
-            <div ref={sceneRef} className="absolute inset-0">
-              <Hero3DScene />
+              {/* 3D Scene */}
+              <div ref={sceneRef} className="relative w-full h-full rounded-2xl overflow-hidden">
+                {/* <Hero3DScene /> */}
+              </div>
             </div>
           </motion.div>
         </div>
