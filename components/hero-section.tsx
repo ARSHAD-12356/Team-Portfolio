@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import gsap from "gsap"
+import Hero3DScene from "@/components/hero-3d-scene"
 
 interface HeroSectionProps {
   scrollY: number
@@ -123,7 +124,7 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
             </motion.p>
           </motion.div>
 
-          {/* RIGHT COLUMN - 3D PLACEHOLDER */}
+          {/* RIGHT COLUMN - 3D SCENE */}
           <motion.div
             ref={rightRef}
             initial={{ opacity: 0, scale: 0.8, y: 50 }}
@@ -137,31 +138,7 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
             <div className="absolute inset-0 cyber-grid opacity-20" />
 
             <div ref={sceneRef} className="absolute inset-0">
-              {/* Floating elements */}
-              <motion.div
-                animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-                transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY }}
-                className="absolute top-1/4 left-1/4 w-24 h-24 bg-gradient-to-br from-primary/40 to-secondary/40 rounded-xl blur-xl"
-              />
-              <motion.div
-                animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
-                transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY }}
-                className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-gradient-to-br from-secondary/40 to-accent/40 rounded-full blur-2xl"
-              />
-
-              <div className="absolute inset-0 flex items-center justify-center z-10">
-                <div className="text-center">
-                  <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
-                    className="text-6xl mb-4"
-                  >
-                    🎯
-                  </motion.div>
-                  <p className="text-foreground font-semibold text-lg">3D Developer Workspace</p>
-                  <p className="text-muted-foreground text-sm mt-2">(Three.js / R3F Interactive Scene)</p>
-                </div>
-              </div>
+              <Hero3DScene />
             </div>
           </motion.div>
         </div>
